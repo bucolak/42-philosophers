@@ -6,7 +6,7 @@
 /*   By: bucolak <bucolak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 19:30:27 by bucolak           #+#    #+#             */
-/*   Updated: 2025/03/02 18:20:10 by bucolak          ###   ########.fr       */
+/*   Updated: 2025/03/02 19:43:31 by bucolak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,6 @@ int	main(int argc, char *argv[])
 	create_philo(philo);
 	sone_died(philo);
 	join_thr(philo);
+	free_full(philo);
 	return (0);
 }

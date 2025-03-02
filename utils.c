@@ -6,7 +6,7 @@
 /*   By: bucolak <bucolak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:25:00 by bucolak           #+#    #+#             */
-/*   Updated: 2025/03/02 18:43:12 by bucolak          ###   ########.fr       */
+/*   Updated: 2025/03/02 19:56:38 by bucolak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,16 @@ void	free_full(t_philo_data *philo)
 	{
 		if(philo->philos[i].thread)
 			pthread_detach(philo->philos[i].thread);
-		//free(philo->philos[i].data);
 		pthread_mutex_destroy(&philo->forks[i]);
 		i++;
 	}
-	pthread_mutex_destroy(&philo->t_lock);
-	pthread_mutex_destroy(&philo->m_lock);
-	pthread_mutex_destroy(&philo->meal_lock);
-	free(philo);
+    
+    pthread_mutex_destroy(&philo->meal_lock);
+    pthread_mutex_destroy(&philo->m_lock);
+    pthread_mutex_destroy(&philo->t_lock);
 	free(philo->philos);
-	free(philo->forks);
+    free(philo->forks);
+    free(philo);
 }
 
 int	ft_atoi(const char *str)
