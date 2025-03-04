@@ -6,16 +6,18 @@
 /*   By: bucolak <bucolak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 19:30:27 by bucolak           #+#    #+#             */
-/*   Updated: 2025/03/02 19:43:31 by bucolak          ###   ########.fr       */
+/*   Updated: 2025/03/04 16:40:51 by bucolak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-void mutex_init(t_philo_data *philo)
+
+void	mutex_init(t_philo_data *philo)
 {
-	int i;
+	int	i;
+
 	i = 0;
-	while(i < philo->num_of_philo)
+	while (i < philo->num_of_philo)
 	{
 		pthread_mutex_init(&philo->forks[i], NULL);
 		i++;
@@ -28,12 +30,18 @@ void mutex_init(t_philo_data *philo)
 int	main(int argc, char *argv[])
 {
 	t_philo_data	*philo;
-	if (argc != 5)
+
+	if (argc > 6 || argc < 5)
+	{
+		printf("There is no enough arguments!\n");
 		return (0);
+	}
+	check_arg(argc, argv);
 	philo = malloc(sizeof(t_philo_data));
-	philo->forks=NULL;
+	philo->forks = NULL;
 	philo->philos = NULL;
 	philo->start_time = get_time();
+	philo->someone_died = 0;
 	philo->time_to_die = ft_atoi(argv[2]);
 	philo->time_to_eat = ft_atoi(argv[3]);
 	philo->time_to_sleep = ft_atoi(argv[4]);
@@ -42,6 +50,17 @@ int	main(int argc, char *argv[])
 	philo->philos = malloc(sizeof(t_philo) * philo->num_of_philo);
 	mutex_init(philo);
 	create_philo(philo);
+	if (argc == 6)
+	{
+		philo->must_eat_c = ft_atoi(argv[5]);
+		must_eat(philo);
+	}
+	// if (philo->someone_died==1)
+	// {
+	// 	join_thr(philo);
+	// 	free_full(philo);
+	// 	return 0;
+	// }
 	sone_died(philo);
 	join_thr(philo);
 	free_full(philo);

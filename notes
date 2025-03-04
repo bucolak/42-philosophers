@@ -1,0 +1,19 @@
+./philoda segv yiyor 
+./philo 1
+
+
+program sonalnmıyor
+k1m38s02% ./philo 4 200 200 20 
+1741088903076 2 is thinking
+1741088903076 2 has taken a fork
+1741088903076 2 has taken a fork
+1741088903076 2 is eating
+1741088903077 1 is thinking
+1741088903077 1 has taken a fork
+1741088903077 1 has taken a fork
+1741088903077 1 is eating
+1741088903077 4 is thinking
+1741088903276 2 died
+
+
+1741089001693
