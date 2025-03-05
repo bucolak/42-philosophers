@@ -6,7 +6,7 @@
 /*   By: bucolak <bucolak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 17:50:43 by bucolak           #+#    #+#             */
-/*   Updated: 2025/03/04 16:36:34 by bucolak          ###   ########.fr       */
+/*   Updated: 2025/03/05 18:01:07 by bucolak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,22 @@ void	create_philo(t_philo_data *philo)
 void	join_thr(t_philo_data *philo)
 {
 	int	i;
-
+	int k = 0;
 	i = 0;
 	while (i < philo->num_of_philo)
 	{
 		pthread_join(philo->philos[i].thread, NULL);
-		i++;
+		if(philo->someone_died==1)
+		{
+			while (k < philo->num_of_philo)
+			{
+				pthread_detach(philo->philos[k].thread);
+				k++;
+			}
+			return ;
+		}
 	}
+		i++;
 }
 
 void	*sone_died(t_philo_data *philo)
@@ -59,28 +68,42 @@ void	*sone_died(t_philo_data *philo)
 		i = 0;
 		while (i < philo->num_of_philo)
 		{
+			// pthread_mutex_lock(&philo->d_lock);
 			if ((get_time()
 					- philo->philos[i].last_meal_time) >= philo->time_to_die)
 			{
 				printf("%lld %d died\n", get_time() - philo->start_time, i + 1);
 				philo->someone_died = 1;
+				// pthread_mutex_unlock(&philo->d_lock);
 				return (NULL);
 			}
+			// pthread_mutex_unlock(&philo->d_lock);
 			i++;
 		}
 	}
 	return (NULL);
 }
 
-int	must_eat(t_philo_data *philo)
+void	must_eat(t_philo_data *philo)
 {
 	int	i;
-
+	int c = 0;
 	i = 0;
-	while (i < philo->num_of_philo)
+	while(42)
 	{
-		if (philo->philos[i].meals_eaten >= philo->must_eat_c)
+		while (i < philo->num_of_philo)
+		{
+			pthread_mutex_lock(&philo->must_eat);
+			if (philo->philos[i].meals_eaten >= philo->must_eat_c)
+				c++;
+			pthread_mutex_unlock(&philo->must_eat);
 			i++;
+		}
+		if(c == philo->num_of_philo)
+		{
+			philo->someone_died=1;
+			return ;
+		}
 	}
 	free_full(philo);
 	exit(0);

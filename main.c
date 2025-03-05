@@ -6,7 +6,7 @@
 /*   By: bucolak <bucolak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 19:30:27 by bucolak           #+#    #+#             */
-/*   Updated: 2025/03/04 16:40:51 by bucolak          ###   ########.fr       */
+/*   Updated: 2025/03/05 15:22:00 by bucolak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	mutex_init(t_philo_data *philo)
 	pthread_mutex_init(&philo->meal_lock, NULL);
 	pthread_mutex_init(&philo->m_lock, NULL);
 	pthread_mutex_init(&philo->t_lock, NULL);
+	pthread_mutex_init(&philo->must_eat, NULL);
+	pthread_mutex_init(&philo->d_lock, NULL);
 }
 
 int	main(int argc, char *argv[])
@@ -55,12 +57,6 @@ int	main(int argc, char *argv[])
 		philo->must_eat_c = ft_atoi(argv[5]);
 		must_eat(philo);
 	}
-	// if (philo->someone_died==1)
-	// {
-	// 	join_thr(philo);
-	// 	free_full(philo);
-	// 	return 0;
-	// }
 	sone_died(philo);
 	join_thr(philo);
 	free_full(philo);

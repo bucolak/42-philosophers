@@ -6,7 +6,7 @@
 /*   By: bucolak <bucolak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:51:16 by bucolak           #+#    #+#             */
-/*   Updated: 2025/03/04 15:53:04 by bucolak          ###   ########.fr       */
+/*   Updated: 2025/03/05 15:08:06 by bucolak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ typedef struct s_philo_data
 	pthread_mutex_t		meal_lock;
 	pthread_mutex_t		m_lock;
 	pthread_mutex_t		t_lock;
+	pthread_mutex_t		must_eat;
+	pthread_mutex_t		d_lock;
 }						t_philo_data;
 
 long long				get_time(void);
@@ -57,7 +59,7 @@ void					*sone_died(t_philo_data *philo);
 void					*philo_routine_2(void *arg);
 void					join_thr(t_philo_data *philo);
 void					free_full(t_philo_data *philo);
-int						must_eat(t_philo_data *philo);
+void						must_eat(t_philo_data *philo);
 void					check_arg(int argc, char *argv[]);
 
 #endif

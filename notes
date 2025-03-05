@@ -1,6 +1,7 @@
 ./philoda segv yiyor 
 ./philo 1
 
+-fsanitize=thread
 
 program sonalnmıyor
 k1m38s02% ./philo 4 200 200 20 
@@ -14,6 +15,8 @@ k1m38s02% ./philo 4 200 200 20
 1741088903077 1 is eating
 1741088903077 4 is thinking
 1741088903276 2 died
+
+2 800 200 200
 
 
 1741089001693

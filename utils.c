@@ -6,7 +6,7 @@
 /*   By: bucolak <bucolak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:25:00 by bucolak           #+#    #+#             */
-/*   Updated: 2025/03/04 13:26:38 by bucolak          ###   ########.fr       */
+/*   Updated: 2025/03/05 15:08:27 by bucolak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	free_full(t_philo_data *philo)
     pthread_mutex_destroy(&philo->meal_lock);
     pthread_mutex_destroy(&philo->m_lock);
     pthread_mutex_destroy(&philo->t_lock);
+	pthread_mutex_destroy(&philo->must_eat);
+	pthread_mutex_destroy(&philo->d_lock);
 	free(philo->philos);
     free(philo->forks);
     free(philo);
