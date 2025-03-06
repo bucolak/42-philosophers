@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bucolak <bucolak@student.42.fr>            +#+  +:+       +#+        */
+/*   By: buket <buket@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:51:16 by bucolak           #+#    #+#             */
-/*   Updated: 2025/03/06 15:34:06 by bucolak          ###   ########.fr       */
+/*   Updated: 2025/03/07 00:16:50 by buket            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,10 @@ typedef struct s_philo_data
 	int					time_to_sleep;
 	int					must_eat_c;
 	int					someone_died;
-	int					t;
+	int					two;
 	long long			start_time;
 	pthread_mutex_t		*forks;
+	struct s_fork *fork;
 	pthread_mutex_t		meal_lock;
 	pthread_mutex_t		m_lock;
 	pthread_mutex_t		t_lock;
@@ -55,6 +56,12 @@ typedef struct s_philo_data
 	pthread_mutex_t		d3_lock;
 	pthread_mutex_t		d4_lock;
 }						t_philo_data;
+
+typedef struct s_fork
+{
+	int b;
+	int id;
+}	t_fork;
 
 long long				get_time(void);
 void					create_philo(t_philo_data *philo);

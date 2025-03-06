@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cont_philo.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bucolak <bucolak@student.42.fr>            +#+  +:+       +#+        */
+/*   By: buket <buket@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 17:50:43 by bucolak           #+#    #+#             */
-/*   Updated: 2025/03/06 14:49:41 by bucolak          ###   ########.fr       */
+/*   Updated: 2025/03/07 00:17:01 by buket            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,11 @@ void	create_philo(t_philo_data *philo)
 	while (i < philo->num_of_philo)
 	{
 		philo->philos[i].id = i + 1;
+		philo->fork[i].id=i+1;
 		philo->philos[i].last_meal_time = philo->start_time;
 		philo->philos[i].meals_eaten = 0;
 		philo->philos[i].data = philo;
-		philo->t = 0;
+		philo->two = 0;
 		pthread_create(&philo->philos[i].thread, NULL, philo_routine_2,
 				&philo->philos[i]);
 		if (philo->num_of_philo == 1)
