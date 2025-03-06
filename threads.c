@@ -6,7 +6,7 @@
 /*   By: bucolak <bucolak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 19:32:47 by bucolak           #+#    #+#             */
-/*   Updated: 2025/03/06 16:20:55 by bucolak          ###   ########.fr       */
+/*   Updated: 2025/03/06 17:04:03 by bucolak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,18 @@ void	meal_order(t_philo *philo, int left_id, int right_id)
 		if (philo->id % 2 == 0)
 		{
 			pthread_mutex_lock(&philo->data->d2_lock);
-			while (philo->data->philos[right_id].aa != 0 && philo->data->philos[left_id].aa != 0) {
+			while (philo->data->philos[right_id].aa == 1 && philo->data->philos[left_id].aa == 1) {
     				pthread_mutex_unlock(&philo->data->d2_lock);
     				usleep(1000);
     				pthread_mutex_lock(&philo->data->d2_lock);
 			}
+			pthread_mutex_unlock(&philo->data->d2_lock);
 			if (philo->data->philos[right_id].aa == 0 || philo->data->philos[left_id].aa == 0)
 			{
 				pthread_mutex_unlock(&philo->data->d2_lock);
 				pthread_mutex_lock(&philo->data->forks[left_id]);
 				printf("%lld %d has taken a fork\n", get_time()
 				- philo->data->start_time, philo->id);
-				pthread_mutex_lock(&philo->data->t_lock);
-				philo->data->t = 0;
-				philo->aa=1;
-				pthread_mutex_unlock(&philo->data->t_lock);
 				pthread_mutex_lock(&philo->data->forks[right_id]);
 				printf("%lld %d has taken a fork\n", get_time()
 				- philo->data->start_time, philo->id);
@@ -46,11 +43,12 @@ void	meal_order(t_philo *philo, int left_id, int right_id)
 		else
 		{
 			pthread_mutex_lock(&philo->data->d_lock);
-			while (philo->data->philos[right_id].aa != 0 && philo->data->philos[left_id].aa != 0) {
+			while (philo->data->philos[right_id].aa == 1 && philo->data->philos[left_id].aa == 1) {
     				pthread_mutex_unlock(&philo->data->d_lock);
     				usleep(1000);
     				pthread_mutex_lock(&philo->data->d_lock);
 			}
+			pthread_mutex_unlock(&philo->data->d2_lock);
 			if (philo->data->philos[right_id].aa == 0 || philo->data->philos[left_id].aa == 0)
 			{			
 				pthread_mutex_unlock(&philo->data->d_lock);
@@ -112,9 +110,18 @@ void	last_routine(t_philo *philo, int left_id, int right_id)
 	pthread_mutex_unlock(&philo->data->forks[left_id]);
 	if(philo->data->num_of_philo%2==1)
 	{
-		pthread_mutex_lock(&philo->data->d4_lock);
-		philo->aa=0;
-		pthread_mutex_unlock(&philo->data->d4_lock);
+		if(philo->id%2==0)
+		{
+			pthread_mutex_lock(&philo->data->d4_lock);
+			philo->aa=0;
+			pthread_mutex_unlock(&philo->data->d4_lock);
+		}
+		else
+		{
+			pthread_mutex_lock(&philo->data->d3_lock);
+			philo->aa=0;
+			pthread_mutex_unlock(&philo->data->d3_lock);
+		}
 	}
 	printf("%lld %d is sleeping\n", get_time() - philo->data->start_time,
 			philo->id);
