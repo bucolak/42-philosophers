@@ -6,7 +6,7 @@
 /*   By: bucolak <bucolak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:51:16 by bucolak           #+#    #+#             */
-/*   Updated: 2025/03/05 15:08:06 by bucolak          ###   ########.fr       */
+/*   Updated: 2025/03/06 15:34:06 by bucolak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_philo
 	int					left_fork;
 	int					right_fork;
 	long long			last_meal_time;
+	int aa;
 	struct s_philo_data	*data;
 	pthread_t			thread;
 }						t_philo;
@@ -50,6 +51,9 @@ typedef struct s_philo_data
 	pthread_mutex_t		t_lock;
 	pthread_mutex_t		must_eat;
 	pthread_mutex_t		d_lock;
+	pthread_mutex_t		d2_lock;
+	pthread_mutex_t		d3_lock;
+	pthread_mutex_t		d4_lock;
 }						t_philo_data;
 
 long long				get_time(void);

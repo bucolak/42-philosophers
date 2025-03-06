@@ -6,7 +6,7 @@
 /*   By: bucolak <bucolak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 19:30:27 by bucolak           #+#    #+#             */
-/*   Updated: 2025/03/05 15:22:00 by bucolak          ###   ########.fr       */
+/*   Updated: 2025/03/06 15:34:15 by bucolak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@ void	mutex_init(t_philo_data *philo)
 	pthread_mutex_init(&philo->t_lock, NULL);
 	pthread_mutex_init(&philo->must_eat, NULL);
 	pthread_mutex_init(&philo->d_lock, NULL);
+	pthread_mutex_init(&philo->d2_lock, NULL);
+	pthread_mutex_init(&philo->d3_lock, NULL);
+	pthread_mutex_init(&philo->d4_lock, NULL);
 }
 
 int	main(int argc, char *argv[])
