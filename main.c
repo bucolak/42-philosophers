@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: buket <buket@student.42.fr>                +#+  +:+       +#+        */
+/*   By: bucolak <bucolak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 19:30:27 by bucolak           #+#    #+#             */
-/*   Updated: 2025/03/07 00:02:04 by buket            ###   ########.fr       */
+/*   Updated: 2025/03/09 20:31:29 by bucolak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,20 +29,11 @@ void	mutex_init(t_philo_data *philo)
 	pthread_mutex_init(&philo->d_lock, NULL);
 	pthread_mutex_init(&philo->d2_lock, NULL);
 	pthread_mutex_init(&philo->d3_lock, NULL);
-	pthread_mutex_init(&philo->d4_lock, NULL);
+	pthread_mutex_init(&philo->stop, NULL);
 }
 
-int	main(int argc, char *argv[])
+void	st_init(t_philo_data *philo, char *argv[])
 {
-	t_philo_data	*philo;
-
-	if (argc > 6 || argc < 5)
-	{
-		printf("There is no enough arguments!\n");
-		return (0);
-	}
-	check_arg(argc, argv);
-	philo = malloc(sizeof(t_philo_data));
 	philo->forks = NULL;
 	philo->philos = NULL;
 	philo->start_time = get_time();
@@ -54,15 +45,28 @@ int	main(int argc, char *argv[])
 	philo->forks = malloc(sizeof(pthread_mutex_t) * philo->num_of_philo);
 	philo->philos = malloc(sizeof(t_philo) * philo->num_of_philo);
 	philo->fork=malloc(sizeof(t_fork));
-	mutex_init(philo);
-	create_philo(philo);
-	if (argc == 6)
+}
+
+int	main(int argc, char *argv[])
+{
+	t_philo_data	*philo;
+
+	if (argc > 6 || argc < 5)
 	{
-		philo->must_eat_c = ft_atoi(argv[5]);
-		must_eat(philo);
+		printf("There is no enough arguments!\n");
+		return (0);
 	}
-	sone_died(philo);
-	join_thr(philo);
-	free_full(philo);
+	philo = malloc(sizeof(t_philo_data));
+	if (argc == 6)
+		philo->must_eat_c = ft_atoi(argv[5]);
+	st_init(philo,argv);
+	mutex_init(philo);
+	if(check_arg(argc, argv)==1)
+	{
+		create_philo(philo);
+		sone_died(philo);
+		check_philo(philo);
+		return 0;
+	}
 	return (0);
 }

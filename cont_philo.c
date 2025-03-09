@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cont_philo.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: buket <buket@student.42.fr>                +#+  +:+       +#+        */
+/*   By: bucolak <bucolak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 17:50:43 by bucolak           #+#    #+#             */
-/*   Updated: 2025/03/07 00:17:01 by buket            ###   ########.fr       */
+/*   Updated: 2025/03/09 20:30:32 by bucolak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,8 @@ void	create_philo(t_philo_data *philo)
 		philo->philos[i].meals_eaten = 0;
 		philo->philos[i].data = philo;
 		philo->two = 0;
-		pthread_create(&philo->philos[i].thread, NULL, philo_routine_2,
+		pthread_create(&philo->philos[i].thread, NULL, philo_routine,
 				&philo->philos[i]);
-		if (philo->num_of_philo == 1)
-		{
-			printf("%lld %d has taken a fork\n", get_time() - philo->start_time,
-					i + 1);
-			printf("%lld %d died\n", get_time() - philo->start_time, i + 1);
-			free_full(philo);
-			exit(0);
-		}
 		i++;
 	}
 }
@@ -42,24 +34,28 @@ void	create_philo(t_philo_data *philo)
 void	join_thr(t_philo_data *philo)
 {
 	int	i;
-	int k = 0;
+
 	i = 0;
 	while (i < philo->num_of_philo)
 	{
 		pthread_join(philo->philos[i].thread, NULL);
+		i++;
+	}
+}
+void check_philo(t_philo_data *philo)
+{
+	while(1)
+	{
+		pthread_mutex_lock(&philo->d_lock);
 		if(philo->someone_died==1)
 		{
-			while (k < philo->num_of_philo)
-			{
-				pthread_detach(philo->philos[k].thread);
-				k++;
-			}
-			return ;
+			free_full(philo);
+			pthread_mutex_unlock(&philo->d_lock);
+			exit(0);
 		}
+		pthread_mutex_unlock(&philo->d_lock);
 	}
-		i++;
 }
-
 void	*sone_died(t_philo_data *philo)
 {
 	int	i;
@@ -69,16 +65,17 @@ void	*sone_died(t_philo_data *philo)
 		i = 0;
 		while (i < philo->num_of_philo)
 		{
-			// pthread_mutex_lock(&philo->d_lock);
+			pthread_mutex_lock(&philo->d_lock);
 			if ((get_time()
 					- philo->philos[i].last_meal_time) >= philo->time_to_die)
 			{
 				printf("%lld %d died\n", get_time() - philo->start_time, i + 1);
 				philo->someone_died = 1;
-				// pthread_mutex_unlock(&philo->d_lock);
+				pthread_mutex_unlock(&philo->d_lock);
+				//free_full(philo);
 				return (NULL);
 			}
-			// pthread_mutex_unlock(&philo->d_lock);
+			pthread_mutex_unlock(&philo->d_lock);
 			i++;
 		}
 	}
@@ -110,7 +107,7 @@ void	must_eat(t_philo_data *philo)
 	exit(0);
 }
 
-void	check_arg(int argc, char *argv[])
+int	check_arg(int argc, char *argv[])
 {
 	int i = 1;
 	int j = 0;
@@ -122,10 +119,11 @@ void	check_arg(int argc, char *argv[])
 			if (!(argv[i][j] >= '0' && argv[i][j] <= '9'))
 			{
 				printf("arg is not numeric!\n");
-				exit(0);
+				return 0;
 			}
 			j++;
 		}
 		i++;
 	}
+	return 1;
 }
