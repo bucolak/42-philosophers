@@ -6,7 +6,7 @@
 /*   By: bucolak <bucolak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 17:50:43 by bucolak           #+#    #+#             */
-/*   Updated: 2025/03/09 20:30:32 by bucolak          ###   ########.fr       */
+/*   Updated: 2025/03/12 16:11:37 by bucolak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,8 @@ void check_philo(t_philo_data *philo)
 		pthread_mutex_lock(&philo->d_lock);
 		if(philo->someone_died==1)
 		{
-			free_full(philo);
 			pthread_mutex_unlock(&philo->d_lock);
-			exit(0);
+			return ;
 		}
 		pthread_mutex_unlock(&philo->d_lock);
 	}
@@ -72,8 +71,8 @@ void	*sone_died(t_philo_data *philo)
 				printf("%lld %d died\n", get_time() - philo->start_time, i + 1);
 				philo->someone_died = 1;
 				pthread_mutex_unlock(&philo->d_lock);
-				//free_full(philo);
-				return (NULL);
+				// free_full(philo);
+				return NULL;
 			}
 			pthread_mutex_unlock(&philo->d_lock);
 			i++;
@@ -82,30 +81,30 @@ void	*sone_died(t_philo_data *philo)
 	return (NULL);
 }
 
-void	must_eat(t_philo_data *philo)
-{
-	int	i;
-	int c = 0;
-	i = 0;
-	while(42)
-	{
-		while (i < philo->num_of_philo)
-		{
-			pthread_mutex_lock(&philo->must_eat);
-			if (philo->philos[i].meals_eaten >= philo->must_eat_c)
-				c++;
-			pthread_mutex_unlock(&philo->must_eat);
-			i++;
-		}
-		if(c == philo->num_of_philo)
-		{
-			philo->someone_died=1;
-			return ;
-		}
-	}
-	free_full(philo);
-	exit(0);
-}
+// void	must_eat(t_philo_data *philo)
+// {
+// 	int	i;
+// 	int c = 0;
+// 	i = 0;
+// 	while(42)
+// 	{
+// 		while (i < philo->num_of_philo)
+// 		{
+// 			pthread_mutex_lock(&philo->must_eat);
+// 			if (philo->philos[i].meals_eaten >= philo->must_eat_c)
+// 				c++;
+// 			pthread_mutex_unlock(&philo->must_eat);
+// 			i++;
+// 		}
+// 		if(c == philo->num_of_philo)
+// 		{
+// 			philo->someone_died=1;
+// 			return ;
+// 		}
+// 	}
+// 	free_full(philo);
+// 	exit(0);
+// }
 
 int	check_arg(int argc, char *argv[])
 {
