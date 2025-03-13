@@ -6,7 +6,7 @@
 /*   By: bucolak <bucolak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 19:30:27 by bucolak           #+#    #+#             */
-/*   Updated: 2025/03/12 16:40:18 by bucolak          ###   ########.fr       */
+/*   Updated: 2025/03/13 14:52:18 by bucolak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,18 @@ void	mutex_init(t_philo_data *philo)
 	pthread_mutex_init(&philo->d_lock, NULL);
 	pthread_mutex_init(&philo->d2_lock, NULL);
 	pthread_mutex_init(&philo->d3_lock, NULL);
-	pthread_mutex_init(&philo->stop, NULL);
 }
 
 void	st_init(t_philo_data *philo, char *argv[])
 {
+	int i;
+
+	i = 0;
 	philo->forks = NULL;
 	philo->philos = NULL;
 	philo->start_time = get_time();
 	philo->someone_died = 0;
+	philo->two=0;
 	philo->time_to_die = ft_atoi(argv[2]);
 	philo->time_to_eat = ft_atoi(argv[3]);
 	philo->time_to_sleep = ft_atoi(argv[4]);
@@ -45,6 +48,14 @@ void	st_init(t_philo_data *philo, char *argv[])
 	philo->forks = malloc(sizeof(pthread_mutex_t) * philo->num_of_philo);
 	philo->philos = malloc(sizeof(t_philo) * philo->num_of_philo);
 	philo->fork=malloc(sizeof(t_fork));
+	while (i < philo->num_of_philo)
+	{
+		philo->philos[i].id = i + 1;
+		philo->philos[i].last_meal_time = philo->start_time;
+		philo->philos[i].meals_eaten = 0;
+		philo->philos[i].data = philo;
+		i++;
+	}
 }
 
 int	main(int argc, char *argv[])
@@ -64,9 +75,6 @@ int	main(int argc, char *argv[])
 	if(check_arg(argc, argv)==1)
 	{
 		create_philo(philo);
-		sone_died(philo);
-		check_philo(philo); 
-		free_full(philo);
 		return 0;
 	}
 	return (0);

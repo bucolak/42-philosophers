@@ -6,7 +6,7 @@
 /*   By: bucolak <bucolak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:51:16 by bucolak           #+#    #+#             */
-/*   Updated: 2025/03/09 20:34:14 by bucolak          ###   ########.fr       */
+/*   Updated: 2025/03/12 17:29:45 by bucolak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ typedef struct s_fork
 long long				get_time(void);
 void					create_philo(t_philo_data *philo);
 int						ft_atoi(const char *str);
-void					*sone_died(t_philo_data *philo);
+void					*sone_died(void *arg);
 void					*philo_routine(void *arg);
 void					join_thr(t_philo_data *philo);
 void					free_full(t_philo_data *philo);

@@ -6,7 +6,7 @@
 /*   By: bucolak <bucolak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:25:00 by bucolak           #+#    #+#             */
-/*   Updated: 2025/03/12 16:43:00 by bucolak          ###   ########.fr       */
+/*   Updated: 2025/03/12 17:34:46 by bucolak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	free_full(t_philo_data *philo)
 	int	i;
 
 	i = 0;
-	join_thr(philo);
 	while (i < philo->num_of_philo)
 	{
 		pthread_mutex_destroy(&philo->forks[i]);
