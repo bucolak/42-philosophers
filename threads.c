@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   threads.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bucolak <bucolak@student.42.fr>            +#+  +:+       +#+        */
+/*   By: buket <buket@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 19:32:47 by bucolak           #+#    #+#             */
-/*   Updated: 2025/03/14 15:11:56 by bucolak          ###   ########.fr       */
+/*   Updated: 2025/03/14 23:16:11 by buket            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,22 +26,36 @@ int cont_dead(t_philo *philo)
 
 void	meal_order(t_philo *philo, int left_id, int right_id)
 {
-	if(philo->id%2==0)
+	if((philo->id==1 || philo->id==philo->data->num_of_philo) && philo->data->num_of_philo%2==1)
 	{
-		pthread_mutex_lock(&philo->data->forks[left_id]);
-		pthread_mutex_lock(&philo->data->forks[right_id]);
+		
+	pthread_mutex_lock(&philo->data->d2_lock);
+	while((philo->id==1 && philo->data->two!=1) 
+		|| (philo->id==philo->data->num_of_philo && philo->data->two!=0))
+		{
+			pthread_mutex_unlock(&philo->data->d2_lock);
+			ft_usleep(500);
+			pthread_mutex_lock(&philo->data->d2_lock);
+		}
+	pthread_mutex_unlock(&philo->data->d2_lock);
 	}
-	else
-	{
-		pthread_mutex_lock(&philo->data->forks[right_id]);
-		pthread_mutex_lock(&philo->data->forks[left_id]);
-	}
-	if(cont_dead(philo)==1)
-		return ;
+	pthread_mutex_lock(&philo->data->forks[right_id]);
+	pthread_mutex_lock(&philo->data->forks[left_id]);
+	if(cont_dead(philo)==1) return ;
 	printf("%lld %d has taken a fork\n", get_time()
 		- philo->data->start_time, philo->id);
 	printf("%lld %d has taken a fork\n", get_time()
 		- philo->data->start_time, philo->id);
+	if((philo->id==1 || philo->id==philo->data->num_of_philo)  && philo->data->num_of_philo%2==1)
+	{
+		
+	pthread_mutex_lock(&philo->data->d2_lock);
+	if(philo->id==1)
+		philo->data->two=1;
+	else if(philo->id==philo->data->num_of_philo)
+		philo->data->two=0;
+	pthread_mutex_unlock(&philo->data->d2_lock);
+	}
 	pthread_mutex_lock(&philo->data->d_lock);
 	philo->last_meal_time = get_time();
 	philo->meals_eaten++;
@@ -51,15 +65,17 @@ void	meal_order(t_philo *philo, int left_id, int right_id)
 	if(cont_dead(philo)==1)
 		return ;
 	ft_usleep(philo->data->time_to_eat);
-	if(philo->id%2==0)
+	pthread_mutex_unlock(&philo->data->forks[right_id]);
+	pthread_mutex_unlock(&philo->data->forks[left_id]);
+	if((philo->id==1 || philo->id==philo->data->num_of_philo) && philo->data->num_of_philo%2==1)
 	{
-		pthread_mutex_unlock(&philo->data->forks[left_id]);
-		pthread_mutex_unlock(&philo->data->forks[right_id]);
-	}
-	else
-	{
-		pthread_mutex_unlock(&philo->data->forks[right_id]);
-		pthread_mutex_unlock(&philo->data->forks[left_id]);
+		
+	pthread_mutex_lock(&philo->data->d2_lock);
+	if(philo->id==1)
+		philo->data->two=0;
+	else if(philo->id==philo->data->num_of_philo)
+		philo->data->two=1;
+	pthread_mutex_unlock(&philo->data->d2_lock);
 	}
 }
 
@@ -96,20 +112,20 @@ void	*philo_routine(void *arg)
 		right_id = (philo->id + 1) % philo->data->num_of_philo;
 		if(philo->id%2==0)
 		{
-			meal_order(philo, left_id, right_id);
-			if (cont_dead(philo)) return NULL;
 			sleeping(philo);
 			if (cont_dead(philo)) return NULL;
 			thinking(philo);
+			if (cont_dead(philo)) return NULL;
+			meal_order(philo, left_id, right_id);
+			if (cont_dead(philo)) return NULL;
 		}
 		else
 		{
+			meal_order(philo, left_id, right_id);
+			if (cont_dead(philo)) return NULL;
 			sleeping(philo);
 			if (cont_dead(philo)) return NULL;
 			thinking(philo);
-			if (cont_dead(philo)) return NULL;
-			meal_order(philo, left_id, right_id);
-			if (cont_dead(philo)) return NULL;
 		}
 	}
 	return (NULL);

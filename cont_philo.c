@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cont_philo.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bucolak <bucolak@student.42.fr>            +#+  +:+       +#+        */
+/*   By: buket <buket@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 17:50:43 by bucolak           #+#    #+#             */
-/*   Updated: 2025/03/14 15:04:52 by bucolak          ###   ########.fr       */
+/*   Updated: 2025/03/14 22:39:19 by buket            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ void	*sone_died(void *arg)
 				printf("%lld %d died\n", get_time() - philo->start_time, i + 1);
 				philo->someone_died = 1;
 				pthread_mutex_unlock(&philo->d_lock);
-				//free_full(philo);
 				return NULL;
 			}
 			pthread_mutex_unlock(&philo->d_lock);
