@@ -4,7 +4,7 @@ SRC = main.c threads.c utils.c cont_philo.c
 
 OBJ = $(SRC:.c=.o)
 
-CFLAGS = -Wall -Wextra -Werror -fsanitize=thread -g
+CFLAGS = -Wall -Wextra -Werror #-fsanitize=thread -g
 
 all: $(NAME)
 

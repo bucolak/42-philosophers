@@ -6,7 +6,7 @@
 /*   By: bucolak <bucolak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:51:16 by bucolak           #+#    #+#             */
-/*   Updated: 2025/03/12 17:29:45 by bucolak          ###   ########.fr       */
+/*   Updated: 2025/03/14 15:00:32 by bucolak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,6 @@ void						must_eat(t_philo_data *philo);
 int					check_arg(int argc, char *argv[]);
 void check_philo(t_philo_data *philo);
 int dead_cont(t_philo *philo);
+int	ft_usleep(size_t milliseconds);
 
 #endif
