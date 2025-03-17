@@ -3,7 +3,7 @@
 
 -fsanitize=thread
 
-program sonalnmıyor
+program sonalnmıyor 
 k1m38s02% ./philo 4 200 200 20 
 1741088903076 2 is thinking
 1741088903076 2 has taken a fork

@@ -6,7 +6,7 @@ OBJ = $(SRC:.c=.o)
 
 CFLAGS = -Wall -Wextra -Werror #-fsanitize=thread -g
 
-all: $(NAME)
+all: $(NAME)  
 
 $(NAME): $(OBJ)
 	cc $(CFLAGS) -o $(NAME) $(OBJ)

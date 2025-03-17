@@ -6,7 +6,7 @@
 /*   By: buket <buket@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 19:32:47 by bucolak           #+#    #+#             */
-/*   Updated: 2025/03/16 15:34:04 by buket            ###   ########.fr       */
+/*   Updated: 2025/03/17 17:59:49 by buket            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ int cont_dead(t_philo *philo)
 
 void	meal_order(t_philo *philo, int left_id, int right_id)
 {
-	if(cont_dead(philo)==1) return ;
 	pthread_mutex_lock(&philo->data->forks[left_id]);
 	pthread_mutex_lock(&philo->data->forks[right_id]);
+	if(cont_dead(philo)==1) return ;
 	printf("%lld %d has taken a fork\n", get_time()
 		- philo->data->start_time, philo->id);
 	printf("%lld %d has taken a fork\n", get_time()
@@ -71,7 +71,7 @@ void	thinking(t_philo *philo)
 void	*philo_routine(void *arg)
 {
 	t_philo	*philo;
-	int		left_id;
+	int		left_id; 
 	int		right_id;
 
 	philo = (t_philo *)arg;
@@ -83,9 +83,18 @@ void	*philo_routine(void *arg)
 		left_id = (philo->id - 1 + philo->data->num_of_philo)
 			% philo->data->num_of_philo;
 		right_id = (philo->id + 1) % philo->data->num_of_philo;
+		if(philo->id%2==0)
+		{
 		meal_order(philo,left_id,right_id);
 		sleeping(philo);
 		thinking(philo);
+		}
+		else
+		{
+			sleeping(philo);
+			thinking(philo);
+			meal_order(philo,left_id,right_id);
+		}
 	}
 	return (NULL);
 }

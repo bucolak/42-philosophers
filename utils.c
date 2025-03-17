@@ -6,11 +6,11 @@
 /*   By: buket <buket@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:25:00 by bucolak           #+#    #+#             */
-/*   Updated: 2025/03/14 22:38:35 by buket            ###   ########.fr       */
+/*   Updated: 2025/03/17 17:59:51 by buket            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo.h" 
 
 int	ft_usleep(size_t milliseconds)
 {

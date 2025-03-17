@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bucolak <bucolak@student.42.fr>            +#+  +:+       +#+        */
+/*   By: buket <buket@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 19:30:27 by bucolak           #+#    #+#             */
-/*   Updated: 2025/03/13 14:52:18 by bucolak          ###   ########.fr       */
+/*   Updated: 2025/03/17 17:59:34 by buket            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	mutex_init(t_philo_data *philo)
 {
-	int	i;
+	int	i;  
 
 	i = 0;
 	while (i < philo->num_of_philo)

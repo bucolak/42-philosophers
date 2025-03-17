@@ -6,7 +6,7 @@
 /*   By: buket <buket@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 17:50:43 by bucolak           #+#    #+#             */
-/*   Updated: 2025/03/14 22:39:19 by buket            ###   ########.fr       */
+/*   Updated: 2025/03/17 17:59:31 by buket            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	*sone_died(void *arg)
 	}
 	return (NULL);
 }
-
+  
 int	check_arg(int argc, char *argv[])
 {
 	int i = 1;

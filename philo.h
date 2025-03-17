@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bucolak <bucolak@student.42.fr>            +#+  +:+       +#+        */
+/*   By: buket <buket@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:51:16 by bucolak           #+#    #+#             */
-/*   Updated: 2025/03/14 15:00:32 by bucolak          ###   ########.fr       */
+/*   Updated: 2025/03/17 17:59:46 by buket            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_H
+#ifndef PHILO_H 
 # define PHILO_H
 
 # include <pthread.h>
