@@ -1,4 +1,4 @@
-NAME = philo
+NAME = philo            
 
 SRC = main.c threads.c utils.c cont_philo.c
 
