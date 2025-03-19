@@ -6,7 +6,7 @@
 /*   By: bucolak <bucolak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 19:32:47 by bucolak           #+#    #+#             */
-/*   Updated: 2025/03/19 16:08:10 by bucolak          ###   ########.fr       */
+/*   Updated: 2025/03/19 16:14:26 by bucolak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int cont_dead(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->data->d_lock);
-	if(philo->data->someone_died)
+	if(philo->data->someone_died==1)
 	{
 		pthread_mutex_unlock(&philo->data->d_lock);
 		return 1;
@@ -26,12 +26,11 @@ int cont_dead(t_philo *philo)
 
 void	meal_order(t_philo *philo, int left_id, int right_id)
 {
-	
-	if(cont_dead(philo)==1) return ;
 	pthread_mutex_lock(&philo->data->forks[left_id]);
+	pthread_mutex_lock(&philo->data->forks[right_id]);
+	if(cont_dead(philo)==1) return ;
 	printf("%lld %d has taken a fork\n", get_time()
 	- philo->data->start_time, philo->id);
-	pthread_mutex_lock(&philo->data->forks[right_id]);
 	printf("%lld %d has taken a fork\n", get_time()
 	- philo->data->start_time, philo->id);
 	if(cont_dead(philo)==1) 
