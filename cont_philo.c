@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cont_philo.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: buket <buket@student.42.fr>                +#+  +:+       +#+        */
+/*   By: bucolak <bucolak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 17:50:43 by bucolak           #+#    #+#             */
-/*   Updated: 2025/03/17 17:59:31 by buket            ###   ########.fr       */
+/*   Updated: 2025/03/20 18:00:02 by bucolak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ void	*sone_died(void *arg)
 			if ((get_time()
 					- philo->philos[i].last_meal_time) >= philo->time_to_die)
 			{
-				printf("%lld %d died\n", get_time() - philo->start_time, i + 1);
+				if(philo->two!=1)
+					printf("%lld %d died\n", get_time() - philo->start_time, i + 1);
 				philo->someone_died = 1;
 				pthread_mutex_unlock(&philo->d_lock);
 				return NULL;
@@ -56,8 +57,21 @@ void	*sone_died(void *arg)
 			pthread_mutex_unlock(&philo->d_lock);
 			i++;
 		}
+		//must_eaten(philo);
 	}
 	return (NULL);
+}
+
+int cont_dead(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->data->d_lock);
+	if(philo->data->someone_died==1)
+	{
+		pthread_mutex_unlock(&philo->data->d_lock);
+		return 1;
+	}
+	pthread_mutex_unlock(&philo->data->d_lock);
+	return 0;
 }
   
 int	check_arg(int argc, char *argv[])
@@ -79,4 +93,28 @@ int	check_arg(int argc, char *argv[])
 		i++;
 	}
 	return 1;
+}
+
+void must_eaten(t_philo_data *philo)
+{
+	int c;
+	int i;
+
+	while(1)
+	{
+		c = 0;
+		i = 0;
+		while(i < philo->num_of_philo)
+		{
+			if(philo->philos[i].meals_eaten>=philo->must_eat_c)
+				c++;
+			i++;
+		}
+		if(philo->num_of_philo==c)
+		{
+			philo->someone_died=1;
+			philo->two=1;
+			break;
+		}
+	}
 }

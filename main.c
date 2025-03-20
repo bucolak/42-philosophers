@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: buket <buket@student.42.fr>                +#+  +:+       +#+        */
+/*   By: bucolak <bucolak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 19:30:27 by bucolak           #+#    #+#             */
-/*   Updated: 2025/03/17 17:59:34 by buket            ###   ########.fr       */
+/*   Updated: 2025/03/20 17:56:17 by bucolak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,7 @@ void	mutex_init(t_philo_data *philo)
 		pthread_mutex_init(&philo->forks[i], NULL);
 		i++;
 	}
-	pthread_mutex_init(&philo->meal_lock, NULL);
-	pthread_mutex_init(&philo->m_lock, NULL);
-	pthread_mutex_init(&philo->t_lock, NULL);
-	pthread_mutex_init(&philo->must_eat, NULL);
 	pthread_mutex_init(&philo->d_lock, NULL);
-	pthread_mutex_init(&philo->d2_lock, NULL);
-	pthread_mutex_init(&philo->d3_lock, NULL);
 }
 
 void	st_init(t_philo_data *philo, char *argv[])
@@ -47,7 +41,6 @@ void	st_init(t_philo_data *philo, char *argv[])
 	philo->num_of_philo = ft_atoi(argv[1]);
 	philo->forks = malloc(sizeof(pthread_mutex_t) * philo->num_of_philo);
 	philo->philos = malloc(sizeof(t_philo) * philo->num_of_philo);
-	philo->fork=malloc(sizeof(t_fork));
 	while (i < philo->num_of_philo)
 	{
 		philo->philos[i].id = i + 1;
@@ -75,7 +68,9 @@ int	main(int argc, char *argv[])
 	if(check_arg(argc, argv)==1)
 	{
 		create_philo(philo);
+		free_full(philo);
 		return 0;
 	}
+	free_full(philo);
 	return (0);
 }

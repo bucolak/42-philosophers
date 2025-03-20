@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: buket <buket@student.42.fr>                +#+  +:+       +#+        */
+/*   By: bucolak <bucolak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:51:16 by bucolak           #+#    #+#             */
-/*   Updated: 2025/03/17 17:59:46 by buket            ###   ########.fr       */
+/*   Updated: 2025/03/20 17:25:28 by bucolak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,23 +46,9 @@ typedef struct s_philo_data
 	int					two;
 	long long			start_time;
 	pthread_mutex_t		*forks;
-	struct s_fork *fork;
-	pthread_mutex_t		meal_lock;
-	pthread_mutex_t		m_lock;
-	pthread_mutex_t		t_lock;
-	pthread_mutex_t		must_eat;
 	pthread_mutex_t		d_lock;
-	pthread_mutex_t		d2_lock;
-	pthread_mutex_t		d3_lock;
-	pthread_mutex_t		stop;
 	
 }						t_philo_data;
-
-typedef struct s_fork
-{
-	int b;
-	int id;
-}	t_fork;
 
 long long				get_time(void);
 void					create_philo(t_philo_data *philo);
@@ -71,10 +57,10 @@ void					*sone_died(void *arg);
 void					*philo_routine(void *arg);
 void					join_thr(t_philo_data *philo);
 void					free_full(t_philo_data *philo);
-void						must_eat(t_philo_data *philo);
 int					check_arg(int argc, char *argv[]);
 void check_philo(t_philo_data *philo);
-int dead_cont(t_philo *philo);
 int	ft_usleep(size_t milliseconds);
+int cont_dead(t_philo *philo);
+void must_eaten(t_philo_data *philo);
 
 #endif
