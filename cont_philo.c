@@ -6,7 +6,7 @@
 /*   By: bucolak <bucolak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 17:50:43 by bucolak           #+#    #+#             */
-/*   Updated: 2025/03/21 16:31:33 by bucolak          ###   ########.fr       */
+/*   Updated: 2025/03/21 18:05:40 by bucolak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,26 +104,25 @@ int	must_eaten(t_philo_data *philo)
 	int	c;
 	int	i;
 
-	while (1)
+	c = 0;
+	i = 0;
+	if (cont_dead(philo->philos) == 1)
+		return (0);
+	while (i < philo->num_of_philo)
 	{
-		c = 0;
-		i = 0;
-		while (i < philo->num_of_philo)
-		{
-			pthread_mutex_lock(&philo->d_lock);
-			if (philo->philos[i].meals_eaten >= philo->must_eat_c)
-				c++;
-			pthread_mutex_unlock(&philo->d_lock);
-			i++;
-		}
-		if (philo->num_of_philo == c)
-		{
-			pthread_mutex_lock(&philo->d_lock);
-			philo->someone_died = 1;
-			philo->two = 1;
-			pthread_mutex_unlock(&philo->d_lock);
-			return (1);
-		}
+		pthread_mutex_lock(&philo->d_lock);
+		if (philo->philos[i].meals_eaten >= philo->must_eat_c)
+			c++;
+		pthread_mutex_unlock(&philo->d_lock);
+		i++;
+	}
+	if (philo->num_of_philo == c)
+	{
+		pthread_mutex_lock(&philo->d_lock);
+		philo->someone_died = 1;
+		philo->two = 1;
+		pthread_mutex_unlock(&philo->d_lock);
+		return (1);
 	}
 	return (0);
 }
