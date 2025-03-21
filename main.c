@@ -6,15 +6,22 @@
 /*   By: bucolak <bucolak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 19:30:27 by bucolak           #+#    #+#             */
-/*   Updated: 2025/03/21 14:50:17 by bucolak          ###   ########.fr       */
+/*   Updated: 2025/03/21 16:32:04 by bucolak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+void	variable_of_two_cont(t_philo_data *philo, int i)
+{
+	if (philo->two != 1)
+		printf("%lld %d died\n", get_time() - philo->start_time, i
+			+ 1);
+}
+
 void	mutex_init(t_philo_data *philo)
 {
-	int	i;  
+	int	i;
 
 	i = 0;
 	while (i < philo->num_of_philo)
@@ -27,14 +34,14 @@ void	mutex_init(t_philo_data *philo)
 
 void	st_init(t_philo_data *philo, char *argv[])
 {
-	int i;
+	int	i;
 
 	i = 0;
 	philo->forks = NULL;
 	philo->philos = NULL;
 	philo->start_time = get_time();
 	philo->someone_died = 0;
-	philo->two=0;
+	philo->two = 0;
 	philo->time_to_die = ft_atoi(argv[2]);
 	philo->time_to_eat = ft_atoi(argv[3]);
 	philo->time_to_sleep = ft_atoi(argv[4]);
@@ -61,17 +68,17 @@ int	main(int argc, char *argv[])
 		return (0);
 	}
 	philo = malloc(sizeof(t_philo_data));
-	philo->argc=argc;
+	philo->argc = argc;
 	philo->must_eat_c = 0;
 	if (argc == 6)
 		philo->must_eat_c = ft_atoi(argv[5]);
-	st_init(philo,argv);
+	st_init(philo, argv);
 	mutex_init(philo);
-	if(check_arg(argc, argv)==1)
+	if (check_arg(argc, argv) == 1)
 	{
 		create_philo(philo);
 		free_full(philo);
-		return 0;
+		return (0);
 	}
 	free_full(philo);
 	return (0);

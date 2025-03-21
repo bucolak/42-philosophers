@@ -6,7 +6,7 @@
 /*   By: bucolak <bucolak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:25:00 by bucolak           #+#    #+#             */
-/*   Updated: 2025/03/21 15:06:39 by bucolak          ###   ########.fr       */
+/*   Updated: 2025/03/21 16:33:07 by bucolak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	ft_usleep(size_t milliseconds)
 		usleep(50);
 	return (0);
 }
+
 void	free_full(t_philo_data *philo)
 {
 	int	i;
@@ -33,8 +34,18 @@ void	free_full(t_philo_data *philo)
 	}
 	pthread_mutex_destroy(&philo->d_lock);
 	free(philo->philos);
-    free(philo->forks);
-    free(philo);
+	free(philo->forks);
+	free(philo);
+}
+
+void	dead_cont_2(t_philo *philo, int left_id, int right_id)
+{
+	if (cont_dead(philo) == 1)
+	{
+		pthread_mutex_unlock(&philo->data->forks[right_id]);
+		pthread_mutex_unlock(&philo->data->forks[left_id]);
+		return ;
+	}
 }
 
 int	ft_atoi(const char *str)
@@ -66,9 +77,10 @@ int	ft_atoi(const char *str)
 	return (k * s);
 }
 
-long long get_time()
+long long	get_time(void)
 {
-    struct timeval tv;
-    gettimeofday(&tv, NULL);
-    return(tv.tv_sec*1000 + tv.tv_usec/1000);
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
