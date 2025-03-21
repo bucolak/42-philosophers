@@ -6,7 +6,7 @@
 /*   By: bucolak <bucolak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 19:30:27 by bucolak           #+#    #+#             */
-/*   Updated: 2025/03/20 17:56:17 by bucolak          ###   ########.fr       */
+/*   Updated: 2025/03/21 14:50:17 by bucolak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ int	main(int argc, char *argv[])
 		return (0);
 	}
 	philo = malloc(sizeof(t_philo_data));
+	philo->argc=argc;
+	philo->must_eat_c = 0;
 	if (argc == 6)
 		philo->must_eat_c = ft_atoi(argv[5]);
 	st_init(philo,argv);

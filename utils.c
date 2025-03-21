@@ -6,7 +6,7 @@
 /*   By: bucolak <bucolak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 12:25:00 by bucolak           #+#    #+#             */
-/*   Updated: 2025/03/20 17:44:05 by bucolak          ###   ########.fr       */
+/*   Updated: 2025/03/21 15:06:39 by bucolak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int	ft_usleep(size_t milliseconds)
 		usleep(50);
 	return (0);
 }
-
 void	free_full(t_philo_data *philo)
 {
 	int	i;

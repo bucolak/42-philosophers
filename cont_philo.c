@@ -6,7 +6,7 @@
 /*   By: bucolak <bucolak@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 17:50:43 by bucolak           #+#    #+#             */
-/*   Updated: 2025/03/20 18:00:02 by bucolak          ###   ########.fr       */
+/*   Updated: 2025/03/21 16:03:37 by bucolak          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,10 @@ void	*sone_died(void *arg)
 			pthread_mutex_unlock(&philo->d_lock);
 			i++;
 		}
-		//must_eaten(philo);
+		if(philo->argc==6){
+			if(must_eaten(philo)==1)
+				break;
+		}
 	}
 	return (NULL);
 }
@@ -95,7 +98,7 @@ int	check_arg(int argc, char *argv[])
 	return 1;
 }
 
-void must_eaten(t_philo_data *philo)
+int must_eaten(t_philo_data *philo)
 {
 	int c;
 	int i;
@@ -106,15 +109,22 @@ void must_eaten(t_philo_data *philo)
 		i = 0;
 		while(i < philo->num_of_philo)
 		{
+			pthread_mutex_lock(&philo->d_lock);
 			if(philo->philos[i].meals_eaten>=philo->must_eat_c)
 				c++;
+			pthread_mutex_unlock(&philo->d_lock);
 			i++;
 		}
 		if(philo->num_of_philo==c)
 		{
+			pthread_mutex_lock(&philo->d_lock);
 			philo->someone_died=1;
 			philo->two=1;
+			pthread_mutex_unlock(&philo->d_lock);
 			break;
 		}
 	}
+	if(philo->num_of_philo==c)
+		return 1;
+	return 0;
 }
